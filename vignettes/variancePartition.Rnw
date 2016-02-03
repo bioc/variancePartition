@@ -194,7 +194,7 @@ Fitting the regression model and extracting variance statistics can also be done
 library(lme4)
 
 # fit regression model for the first gene 
-fit <- lmer(geneExpr[1,] ~ Age + (1|Individual) + (1|Tissue), info )
+fit <- lmer(geneExpr[1,] ~ Age + (1|Individual) + (1|Tissue), info, REML=FALSE )
 
 # extract variance statistics
 calcVarPart(fit)
