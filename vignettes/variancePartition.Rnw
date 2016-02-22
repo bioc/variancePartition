@@ -669,7 +669,7 @@ and the residual variance is
 \subsection{Interpretation of percent variance explained}
 The percent variance explained can be interpreted as the intra-class correlation (ICC) when a special case of Equation 1 is used.  Consider the simplest example of the $i^{th}$ sample from the $k^{th}$ individual 
 \begin{eqnarray}
-  y_{i,k} = \mu + Z \alpha_{i,k} + e_{i}
+  y_{i,k} = \mu + Z \alpha_{i,k} + e_{i,k}
 \end{eqnarray}
 with only an intercept term, one random effect corresponding to individual, and an error term.  In this case ICC corresponds to the correlation between two samples from the same individual.  This value is equal to the fraction of variance explained by individual.  For example, consider the correlation between samples from the same individual:
 \begin{eqnarray}
