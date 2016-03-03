@@ -162,7 +162,7 @@ setGeneric("fitVarPartModel", signature="exprObj",
 
 		# specify gene explicitly in data 
 		# required for downstream processing with lmerTest
-		data2 = data.frame(data, expr=gene$E)
+		data2 = data.frame(data, expr=gene$E, check.names=FALSE)
 		form = paste( "expr", paste(as.character( formula), collapse=''))
 
 		res <- foreach(gene=exprIter(exprObj, weightsMatrix, useWeights) ) %dopar% {
@@ -372,14 +372,14 @@ setGeneric("fitExtractVarPartModel", signature="exprObj",
 		# fit first model to initialize other model fits
 		# this make the other models converge faster
 		gene = nextElem(exprIter(exprObj, weightsMatrix, useWeights))
-		fitInit <- lmer( eval(parse(text=form)), data=data,..., REML=REML, control=control,)
+		fitInit <- lmer( eval(parse(text=form)), data=data,..., REML=REML, control=control)
 
 		# check that model fit is valid, and throw warning if not
 		checkModelStatus( fitInit, showWarnings=showWarnings, colinearityCutoff )
 
 		varPart <- foreach(gene=exprIter(exprObj, weightsMatrix, useWeights) ) %dopar% {
 			# fit linear mixed model
-			fit = lmer( eval(parse(text=form)), data=data, ..., REML=REML, weights=gene$weights, start=fitInit@theta, control=control,)
+			fit = lmer( eval(parse(text=form)), data=data, ..., REML=REML, weights=gene$weights, start=fitInit@theta, control=control)
 
 			calcVarPart( fit, adjust, adjustAll, showWarnings, colinearityCutoff )
 		}

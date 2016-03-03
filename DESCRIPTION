@@ -1,7 +1,7 @@
 Package: variancePartition
 Type: Package
 Title: Quantifying and interpreting drivers of variation in complex gene expression studies
-Version: 1.0.6
+Version: 1.0.7
 Date: 2016-2-18
 Author: Gabriel E. Hoffman
 Maintainer: Gabriel E. Hoffman <gabriel.hoffman@mssm.edu>

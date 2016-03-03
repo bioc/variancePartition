@@ -7,10 +7,8 @@ citEntry(entry = "Article",
   journal      = "bioRxiv",
   year         = "2016",
   url          = "http://biorxiv.org/content/early/2016/02/19/040170",
-  doi          = "10.1101/040170",
   textVersion  =
   paste("Gabriel E. Hoffman, Eric E. Schadt (2016).",
         "variancePartition: Interpreting drivers of variation in complex gene expression studies.",
-        "bioRxiv", "doi: 10.1101/040170",
-        "URL: http://biorxiv.org/content/early/2016/02/19/040170")
+        "bioRxiv", "URL: http://biorxiv.org/content/early/2016/02/19/040170")
 )
