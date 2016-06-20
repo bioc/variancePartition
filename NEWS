@@ -1,7 +1,11 @@
+CHANGES IN VERSION 1.2.5
+-------------------------
+	o small change to vignette titles
+	o fix R CMD check warnings
+
 CHANGES IN VERSION 1.2.4
 -------------------------
 	o Fix typos
-
 
 CHANGES IN VERSION 1.1.7
 -------------------------
