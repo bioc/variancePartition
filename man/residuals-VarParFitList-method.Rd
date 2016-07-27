@@ -44,7 +44,6 @@ data(varPartData)
 # Individual and Tissue are both categorical, so we model them as random effects
 form <- ~ Age + (1|Individual) + (1|Tissue) 
 
-# Fit model
 modelFit <- fitVarPartModel( geneExpr, form, info )
 
 # Extract residuals of model fit

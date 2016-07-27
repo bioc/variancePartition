@@ -1,5 +1,10 @@
 CHANGES IN VERSION 1.2.5
 -------------------------
+	o fitVarPartModel warns if names in exprObj and data are not identical
+	o residuals() and other functions deal with missing values properly
+
+CHANGES IN VERSION 1.2.5
+-------------------------
 	o small change to vignette titles
 	o fix R CMD check warnings
 
