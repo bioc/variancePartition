@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.2.7
+-------------------------
+	o Add additional examples to vignette
+	o show projected memory usage of fitVarPartModel()
+
 CHANGES IN VERSION 1.2.5
 -------------------------
 	o fitVarPartModel warns if names in exprObj and data are not identical
