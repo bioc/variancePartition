@@ -1,3 +1,7 @@
+CHANGES IN VERSION 1.2.10
+-------------------------
+	o require lme4 (>= 1.1-10)
+
 CHANGES IN VERSION 1.2.9
 -------------------------
 	o Add plotStratify()
