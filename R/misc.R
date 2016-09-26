@@ -291,6 +291,8 @@ colinearityScore = function(fit){
 # 
 .isMixedModelFormula = function(formula, data ){
 
+	formula = stats::as.formula( formula )
+
     # don't throw an error if the LHS is missing
     control = lme4::lmerControl(check.formula.LHS = "ignore")
 

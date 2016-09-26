@@ -1,3 +1,8 @@
+CHANGES IN VERSION 1.2.11
+-------------------------
+	o in canCorPairs() and other functions, convert formula with as.formula()
+	o improve error messages for canCorPairs()
+
 CHANGES IN VERSION 1.2.10
 -------------------------
 	o require lme4 (>= 1.1-10)
