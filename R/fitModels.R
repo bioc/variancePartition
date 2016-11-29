@@ -17,13 +17,14 @@
 #' @return
 #' list() of where each entry is a model fit produced by lmer() or lm()
 #' 
-#' @import gplots colorRamps lme4 pbkrtest ggplot2 limma foreach reshape2 iterators doParallel Biobase methods 
+#' @import gplots colorRamps lme4 pbkrtest ggplot2 limma foreach reshape2 iterators doParallel Biobase methods utils
 # dendextend
 #' @importFrom MASS ginv
+# @importFrom RSpectra eigs_sym
 #' @importFrom grDevices colorRampPalette hcl
 #' @importFrom graphics abline axis hist image layout lines mtext par plot plot.new rect text title
 #' @importFrom stats anova as.dendrogram as.dist cancor coef cov2cor density dist fitted.values hclust lm median model.matrix order.dendrogram quantile reorder residuals sd terms var vcov
-#' @importFrom utils combn object.size
+
 
 
 
@@ -171,12 +172,23 @@ setGeneric("fitVarPartModel", signature="exprObj",
 		# fit first model to initialize other model fits
 		# this make the other models converge faster
 		gene = nextElem(exprIter(exprObj, weightsMatrix, useWeights))
+
+		timeStart = proc.time()
 		fitInit <- lmer( eval(parse(text=form)), data=data,..., REML=REML, control=control )
+
+		timediff = proc.time() - timeStart
 
 		# check size of stored objects
 		objSize = object.size( fxn(fitInit) ) * nrow(exprObj)
 
+		# total time = (time for 1 gene) * (# of genes) / 60 / (# of threads)
+		showTime = timediff[3] * nrow(exprObj) / 60 / getDoParWorkers()
+
 		cat("Projected memory usage: >", format(objSize, units = "auto"), "\n")
+
+		if( showTime > .01 ){
+			cat("Projected run time: ~", paste(format(showTime, digits=1), "min"), "\n")
+		}
 
 		# check that model fit is valid, and throw warning if not
 		checkModelStatus( fitInit, showWarnings=showWarnings, colinearityCutoff )
@@ -186,7 +198,7 @@ setGeneric("fitVarPartModel", signature="exprObj",
 		data2 = data.frame(data, expr=gene$E, check.names=FALSE)
 		form = paste( "expr", paste(as.character( formula), collapse=''))
 
-		res <- foreach(gene=exprIter(exprObj, weightsMatrix, useWeights) ) %dopar% {
+		res <- foreach(gene=exprIter(exprObj, weightsMatrix, useWeights), .packages="lme4" ) %dopar% {
 
 			# modify data2 for this gene
 			data2$expr = gene$E
@@ -394,12 +406,22 @@ setGeneric("fitExtractVarPartModel", signature="exprObj",
 		# fit first model to initialize other model fits
 		# this make the other models converge faster
 		gene = nextElem(exprIter(exprObj, weightsMatrix, useWeights))
+
+		timeStart = proc.time()
 		fitInit <- lmer( eval(parse(text=form)), data=data,..., REML=REML, control=control)
+		timediff = proc.time() - timeStart
+
+		# total time = (time for 1 gene) * (# of genes) / 60 / (# of threads)
+		showTime = timediff[3] * nrow(exprObj) / 60 / getDoParWorkers()
+
+		if( showTime > .01 ){
+			cat("Projected run time: ~", paste(format(showTime, digits=1), "min"), "\n")
+		}
 
 		# check that model fit is valid, and throw warning if not
 		checkModelStatus( fitInit, showWarnings=showWarnings, colinearityCutoff )
 
-		varPart <- foreach(gene=exprIter(exprObj, weightsMatrix, useWeights) ) %dopar% {
+		varPart <- foreach(gene=exprIter(exprObj, weightsMatrix, useWeights), .packages="lme4" ) %dopar% {
 			# fit linear mixed model
 			fit = lmer( eval(parse(text=form)), data=data, ..., REML=REML, weights=gene$weights, start=fitInit@theta, control=control,na.action=stats::na.exclude)
 

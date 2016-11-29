@@ -6,7 +6,6 @@
 setClass("varParFrac")
 setClass("VarParFitList", representation(method="character"), contains="list")
 
-
 # Iterator over genes
 exprIter = function( exprObj, weights, useWeights = TRUE, scale=TRUE){
     xit <- icountn( nrow(exprObj) )
@@ -51,6 +50,47 @@ setClass("varPartResults", representation(type = "character", adjustedFor="array
 #   }
 # )
 
+#' Convert to matrix
+#' 
+#' Convert varPartResults to matrix
+#'
+#' @param x varPartResults
+#' @param ... other arguments.
+#' 
+#' @return
+#' matrix
+#' @examples
+#' # load library
+#' # library(variancePartition)
+#'
+#' # load simulated data:
+#' # geneExpr: matrix of gene expression values
+#' # info: information/metadata about each sample
+#' data(varPartData)
+#' 
+#' # Specify variables to consider
+#' # Age is continuous so we model it as a fixed effect
+#' # Individual and Tissue are both categorical, so we model them as random effects
+#' form <- ~ Age + (1|Individual) + (1|Tissue) 
+#'
+#' # Fit model
+#' varPart <- fitExtractVarPartModel( geneExpr[1:5,], form, info )
+#' 
+#' # convert to matrix
+#' as.matrix(varPart)
+#'
+#' @export
+#' @docType methods
+#' @aliases as.matrix
+setMethod("as.matrix", "varPartResults",
+function(x, ...)
+{
+	df = as.data.frame( x@.Data )
+	colnames(df) = colnames(x)
+	rownames(df) = rownames(x)
+
+	return( df )
+})
 
 
 #' Simulation dataset for examples
@@ -136,7 +176,6 @@ ggColorHue <- function(n) {
 #' @export
 #' @docType methods
 #' @aliases residuals
-
 setMethod("residuals", "VarParFitList",
   function(object, ...) {
 
