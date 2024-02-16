@@ -4,7 +4,12 @@
 \alias{augmentPriorCount}
 \title{Augment observed read counts with prior count}
 \usage{
-augmentPriorCount(counts, lib.size = colSums2(counts), prior.count = 0.5)
+augmentPriorCount(
+  counts,
+  lib.size = colSums2(counts),
+  prior.count = 0.5,
+  scaledByLib = FALSE
+)
 }
 \arguments{
 \item{counts}{matrix of read counts with genes as rows and samples as columns}
@@ -12,6 +17,8 @@ augmentPriorCount(counts, lib.size = colSums2(counts), prior.count = 0.5)
 \item{lib.size}{library sizes, the sum of all ready for each sample}
 
 \item{prior.count}{average prior count added to each sample.}
+
+\item{scaledByLib}{if \code{TRUE}, scale pseudocount by \code{lib.size}.  Else to standard constant pseudocount addition}
 }
 \value{
 matrix with augmented counts
@@ -20,9 +27,9 @@ matrix with augmented counts
 Augment observed read counts with prior count since log of zero counts is undefined.  The prior count added to each sample is scaled so that no variance is introduced
 }
 \details{
-Adding prior counts removes the issue of evaluating the log of zero counts, and stabilizes the log transform when counts is very small.  However, adding a constant prior count to all samples can introduced an artifact.  Consider two samples each with zero counts for a given gene, but one as a library size of 1k and the other of 50k.  After applying the prior count values become pc / 1k and pc / 50k.  It appears that there is variance in the express of this gene, even though no counts are observed.  This is driven only by variation in the library size, which does not reflect biology.  This issue is most problemtatic for small counts.  
+Adding prior counts removes the issue of evaluating the log of zero counts, and stabilizes the log transform when counts are very small. However, adding a constant prior count to all samples can introduced an artifact. Consider two samples each with zero counts for a given gene, but one as a library size of 1k and the other of 50k. After applying the prior count values become pc / 1k and pc / 50k. It appears that there is variance in the expression of this gene, even though no counts are observed. This is driven only by variation in the library size, which does not reflect biology. This issue is most problematic for small counts.
 
-Instead, let's make the reasonable assumption that a gene does not have expression variance unless supported sufficiently by counts in the numerator.  Consider adding a different prior count to each sample so that genes with zero counts end up woth zero variance. This corresponds to adding \code{prior.count * lib.size[i] / mean(lib.size)} to sample \code{i}.  
+Instead, we make the reasonable assumption that a gene does not have expression variance unless supported sufficiently by counts in the numerator.  Consider adding a different prior count to each sample so that genes with zero counts end up woth zero variance. This corresponds to adding \code{prior.count * lib.size[i] / mean(lib.size)} to sample \code{i}.  
 
 
 This is done in the backend of \code{edgeR::cpm()}, but this function allows users to apply it more generally.
@@ -36,8 +43,7 @@ data(varPartDEdata)
 dge <- DGEList(counts = countMatrix)
 dge <- calcNormFactors(dge)
 
-countsAugmented = augmentPriorCount( dge$counts, dge$samples$lib.size, 1)
-
+countsAugmented <- augmentPriorCount( dge$counts, dge$samples$lib.size, 1)
 }
 \seealso{
 \code{edgeR::cpm()}
