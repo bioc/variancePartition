@@ -3,6 +3,11 @@
  - Nov 7, 2024
  - doc fix
 
+# variancePartition 1.36.3
+ - Jan 2, 2025
+ - examine adding `REDUCE = c` to `bpiterate()`
+ - fix issue `mvTest()` for test of single coefficient
+
 # variancePartition 1.36.2
  - Nov 7, 2024
  - fix docs
