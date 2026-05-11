@@ -608,8 +608,7 @@ Code to process results from `sailfish`, `salmon`, `RSEM` is very similar.
 See [tutorial](http://bioconductor.org/packages/release/bioc/vignettes/tximport/inst/doc/tximport.html) for more details.
 
 
-
-
+<!---
 ### `ballgown`
 
 Quantifications from Cufflinks/Tablemaker and RSEM can be processed and read into R with the Bioconductor package `ballgown`.  
@@ -661,7 +660,7 @@ varPart_transcript <- fitExtractVarPartModel(
 Note that `ballgownrsem` can be used for a similar analysis of `RSEM` results.
 
 See [tutorial](http://bioconductor.org/packages/release/bioc/vignettes/ballgown/inst/doc/ballgown.html) for more details.
-
+--->
 
 ## Compare with other methods
 
