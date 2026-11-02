@@ -64,7 +64,7 @@ There are three components to an analysis:
 
   * Isoform quantification: `kallisto` [@Bray2015], `sailfish` [@Patro2014], `salmon` [@Patro2015], `RSEM` [@Li2011f], `cufflinks` [@Trapnell2010]
 
-    These perform isoform-level quantification using reads that map to multiple transcripts.  Quantification values can be read directly into R, or processed with `ballgown` [@Frazee2015] or `tximport` [@Soneson2015].
+    These perform isoform-level quantification using reads that map to multiple transcripts.  Quantification values can be read directly into R, or processed with `tximport` [@Soneson2015].
 
   * Microarray data: any standard normalization such as `rma` in the `oligo` [@oligoBioc] package can be used. 
 
@@ -606,7 +606,6 @@ varPart_tx <- fitExtractVarPartModel(
 Code to process results from `sailfish`, `salmon`, `RSEM` is very similar.
 
 See [tutorial](http://bioconductor.org/packages/release/bioc/vignettes/tximport/inst/doc/tximport.html) for more details.
-
 
 
 ## Compare with other methods
